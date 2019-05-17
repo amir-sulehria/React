@@ -1,0 +1,21 @@
+Workflow
+Why we need a complex work flow?
+1-We want to optimize code, we want to ship code as small as possible
+2-We want to use next gen js features
+3-We want to be more productive(css auto prefixing(a thing to support a broader browser suppot for css features))
+How we achieve such work flow?
+1-use depedency management tools (dependencies are simply 3rd part libraries. e.g react, react dom etc) like npm
+2-we also need a bundler, because we want to write modular code and split it up to multiple files, so each file is a 
+clear task(focus) and therfore it's easier for us to manage, we also want to bundle this code into couple of files
+in the end when shipping because some browsers don't support split up files. we'll use webpack as bundler. Webpack also 
+allow us to apply some steps before bundling. e.g the mentioned compilation of next gen js features that requires 
+another tool babel that does this compilation etc.
+3-we want a development server and npm provide that.
+
+Folder Structure
+ignore lock files as they are locking dependencies which we're using
+node modules contain all dependencies and sub dependencies of our project
+public is root folder which get serve by web server, it include a index.html, we'll not use more than one
+html files unless building multipage application
+script files are added in src folder 
+manifest.json here we can define some meta data about our application
