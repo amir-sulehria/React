@@ -58,6 +58,18 @@ want to pass refernce. another important thing is is u don't use arrow function 
 on using this keyword, because this will not then refer to this class.
 */
 
+/*1.7
+to change state use special method given by react "setState" this is made available as we extend Component, this method allow us to update this
+special state property and ensure that react get to know about this update so update dom. setState take object as argument and it'll
+merge whatever we define here with our existing state, leaving other properties of state untouched. now what react will do, it will check
+which part we're overriding and merge and lead react to update dom. there are two things that can lead react to update dom, changing
+state and using props. react update dom only where it needs to update.
+instead of hardcoding we can also receive name as newName arg in handler. for this u have to pass name as
+onClick = {this.switchNameHandler.bind(this, 'new name')}
+here this control what this inside controls refer to, this now is list of elements actually which will be passed to our handler function
+there is another method of passing arg using arrow function returning function call however this is not recommended as re reder occur
+more often
+*/
 
 class App extends Component {
   
@@ -69,21 +81,24 @@ class App extends Component {
     ]
   }
   
-  switchNameHandler = ()=>{
-    /*1.7
-    to change state use special method given by react "setState" this is made available as we extend Component, this method allow us to update this
-    special state property and ensure that react get to know about this update so update dom. setState take object as argument and it'll
-    merge whatever we define here with our existing state, leaving other properties of state untouched. now what react will do, it will check
-    which part we're overriding and merge and lead react to update dom. there are two things that can lead react to update dom, changing
-    state and using props. react update dom only where it needs to update.
-    */
+  switchNameHandler = (newName)=>{
 
     //DON'T DO THIS => this.state.persons[0].name = 'Akbar'; 
     this.setState({
       persons : [
         {name: 'Stephanie', age: 23},
-        {name: 'Wasim', age: 43},
+        {name: newName, age: 43},
         {name: 'Jennifer', age: 21}
+      ]
+    });
+  }
+
+  nameChangeHandler = (event)=>{
+    this.setState({
+      persons : [
+        {name: 'Stephanie', age: 23},
+        {name: 'Jennifer', age: 21},
+        {name: event.target.value, age: 43}
       ]
     });
   }
@@ -94,10 +109,26 @@ class App extends Component {
         <h1>
           Hi there, this is React App
         </h1>
-        <button onClick = {this.switchNameHandler}>Switch Names</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My Hobbies: BasketBall</Person>
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+        <button onClick = {() => this.switchNameHandler('Wasim')}>Switch Names</button>
+        
+        <Person
+          name={this.state.persons[0].name}
+          age={this.state.persons[0].age}
+         />
+        
+        <Person
+          name={this.state.persons[1].name}
+          age={this.state.persons[1].age}
+          click={this.switchNameHandler.bind(this, 'Waqar')}
+        >My Hobbies: BasketBall
+        </Person>
+        
+        <Person
+          name={this.state.persons[2].name}
+          age={this.state.persons[2].age}
+          changed={this.nameChangeHandler}
+        />
+
       </div>
     );
 
