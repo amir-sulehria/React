@@ -1,0 +1,16 @@
+/*2.0
+currently whatever css code we write here is not scoped to this component only but is global,
+on saving u notice nothing happened and that's because we did'nt import it, after this the styles will
+get injected dynamically by webpack.
+we can also apply style using inline styling for this see button style where we create style object and 
+then assign it to button. here styling is local but there r certain restrictions like hover effect etc
+*/
+
+.Person{
+    width: 60%;
+    margin: 16px auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 16px;
+    text-align: center;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Person.css';
 
 /*1.2
 we already have seen a way of creating component now lets have a look at another method of 
@@ -28,11 +29,11 @@ refernce to the method as property to component, name is upto u.
 
 /*1.9
 now lets say we want to take input instead of hardcoding, so we use input text as name, use onChange on method which is define in app.js where
-we still want to change state
+we still want to change state, now for styling go to 2.0
 */
 const person = (props)=>{
     return (
-        <div>
+        <div className="Person">
             <p onClick={props.click}>hi my name is {props.name} and my age is {props.age}</p>
             <p>{props.children}</p>
             <input type="text" value={props.name} onChange={props.changed}/>
