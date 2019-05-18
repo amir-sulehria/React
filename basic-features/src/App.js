@@ -57,8 +57,10 @@ switchNameHandler as it's good practice. don't include () as it will execute the
 want to pass refernce. another important thing is is u don't use arrow function u'll run into problem
 on using this keyword, because this will not then refer to this class.
 */
-class App extends Component {
 
+
+class App extends Component {
+  
   state = {
     persons : [
       {name: 'Stephanie', age: 20},
@@ -66,9 +68,24 @@ class App extends Component {
       {name: 'Jennifer', age: 22}
     ]
   }
-
+  
   switchNameHandler = ()=>{
+    /*1.7
+    to change state use special method given by react "setState" this is made available as we extend Component, this method allow us to update this
+    special state property and ensure that react get to know about this update so update dom. setState take object as argument and it'll
+    merge whatever we define here with our existing state, leaving other properties of state untouched. now what react will do, it will check
+    which part we're overriding and merge and lead react to update dom. there are two things that can lead react to update dom, changing
+    state and using props. react update dom only where it needs to update.
+    */
 
+    //DON'T DO THIS => this.state.persons[0].name = 'Akbar'; 
+    this.setState({
+      persons : [
+        {name: 'Stephanie', age: 23},
+        {name: 'Wasim', age: 43},
+        {name: 'Jennifer', age: 21}
+      ]
+    });
   }
 
   render(){
@@ -77,7 +94,7 @@ class App extends Component {
         <h1>
           Hi there, this is React App
         </h1>
-        <button>Switch Names</button>
+        <button onClick = {this.switchNameHandler}>Switch Names</button>
         <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
         <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My Hobbies: BasketBall</Person>
         <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
