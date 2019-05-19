@@ -6,6 +6,10 @@ we can also apply style using inline styling for this see button style where we 
 then assign it to button. here styling is local but there r certain restrictions like hover effect etc
 */
 
+/*2.8
+lets now add about media queries, simply using css
+*/
+
 .Person{
     width: 60%;
     margin: 16px auto;
@@ -13,4 +17,10 @@ then assign it to button. here styling is local but there r certain restrictions
     box-shadow: 0 2px 3px #ccc;
     padding: 16px;
     text-align: center;
+}
+
+@media (min-width: 500px){
+    .Person{
+        width: 450px;
+    }
 }

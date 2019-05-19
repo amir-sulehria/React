@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import classNames from './App.module.css'
 import Person from './Person/Person';
-import Radium, { StyleRoot } from 'radium';
+//import Radium, { StyleRoot } from 'radium';
 
 
 /*1.2
@@ -171,26 +171,20 @@ class App extends Component {
 
   render() {
 
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    };
+    // const style = {
+    //   backgroundColor: 'green',
+    //   color: 'white',
+    //   font: 'inherit',
+    //   border: '1px solid blue',
+    //   padding: '8px',
+    //   cursor: 'pointer',
+    // };
 
     let person = null;
+    let btnClass = '';
     if (this.state.personToggle) {
-      style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      };
+      // style.backgroundColor = 'red';
+      btnClass = classNames.Red;
       person = (
         <div>
 
@@ -228,25 +222,23 @@ class App extends Component {
     // let classes = ['red', 'bold'].join(' ');
     let classes = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red');
+      classes.push(classNames.red);
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold');
+      classes.push(classNames.bold);
     }
 
     return (
 
-      <StyleRoot>
-        <div className="App">
-          <h1>
-            Hi there, this is React App
+      <div className={classNames.App}>
+        <h1>
+          Hi there, this is React App
         </h1>
-          <p className={classes.join(' ')}>This is really working</p>
-          {/* <button style={style} onClick={() => this.switchNameHandler('Wasim')}>Switch Names</button> */}
-          <button style={style} onClick={this.tooglePersonHandler}>Toggle Persons</button>
-          {person}
-        </div>
-      </StyleRoot>
+        <p className={classes.join(' ')}>This is really working</p>
+        {/* <button style={style} onClick={() => this.switchNameHandler('Wasim')}>Switch Names</button> */}
+        <button className={btnClass} onClick={this.tooglePersonHandler}>Toggle Persons</button>
+        {person}
+      </div>
     );
 
     // return React.createElement('div', null, React.createElement('h1', {className: 'App'}, 'From inside React.createElement'));
@@ -254,4 +246,4 @@ class App extends Component {
   }
 }
 
-export default Radium(App);
+export default App;

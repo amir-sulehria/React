@@ -1,6 +1,6 @@
 import React from 'react';
-import './Person.css';
-import Radium from 'radium';
+import className from './Person.module.css';
+// import Radium from 'radium';
 
 /*1.2
 we already have seen a way of creating component now lets have a look at another method of 
@@ -41,14 +41,14 @@ nowgo to 2.7 where we'll enable css modules
 */
 const person = (props)=>{
 
-    const styles = {
-        '@media (min-width: 500px)': {
-            width: '450px'
-        }
-    };
+    // const styles = {
+    //     '@media (min-width: 500px)': {
+    //         width: '450px'
+    //     }
+    // };
 
     return (
-        <div className="Person" style={styles}>
+        <div className={className.Person}>
             <p onClick={props.click}>hi my name is {props.name} and my age is {props.age}</p>
             <p>{props.children}</p>
             <input type="text" value={props.name} onChange={props.changed}/>
@@ -57,4 +57,4 @@ const person = (props)=>{
     
 };
 
-export default Radium(person)
+export default person
