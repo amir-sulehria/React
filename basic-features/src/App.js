@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
@@ -71,39 +71,96 @@ there is another method of passing arg using arrow function returning function c
 more often
 */
 
+/*2.1
+we can use conditions to show content conditionally, in example below we can show/hide persons, lets do this by wrapping content that we want 
+to toggle inside div, also declare a property inside state on whose basis we'll toggle, as we know jsx is actually js so we can use js inside
+jsx using {} and then ternary operator, since ternary expression is not good choice there is another solution, undo everything done for ternary
+expression, since everything is js and we r return some jsx at end, there is one important thing to keep in mind, when react re renders,
+or decide to update the screen it execute render method and everything in block. so we'll take advantage of this behaviour an declare a 
+variable where we'll decide should we store jsx in it or not.
+*/
+
+/*2.2
+in angular we use ngFor but here as we know everything is js so we'll handle list with js, let's apply list on person below, now to convert to
+array of js which is not valid jsx use map function which map on every single element of array, so we need to return something that
+can be represted using jsx so use return <Person/>. now we can apply click handler e.g. deleteNameHandler used below, but that approach has
+flaw in it, the flaw is that object and arrays are refernce type in js so if u write const persons = this.state.persons; then u r actually 
+getting refernce to original array managed by react using state, good practice is to instead create a copy and then mutate it, for this use 
+slice or spread operator
+*/
+
+/*2.3
+now lets take care of error we're getting since using list i.e. key prop. key prop s an important property that we should add when 
+rendering some data, it's a default property react expect to find no matter on custom or non-custom components which u render through a list.
+this key property help react update list efficiently, the current approach of using indexes works, but behind scenes react has to find out
+what it actually need to adjust in overall dom by comparing with virtual dom what we'll render now to previous render. it will re render whole 
+list that's very in-efficient. key property allow react to keep track of elements, it can then used to compare b/w different elements to find
+out which element change and which did'nt, so it re render only changed element not the whole list. key should be unique below is
+what we're doing before using key as refernce
+        {this.state.persons.map((person, index) => {
+          return <Person
+           name = {person.name}
+           age = {person.age}
+           click = {this.deleteNameHandler.bind(this, index)}
+           />
+        })}
+now give person property of id(unique) that'll be used as key
+since now we've id we can change name to only specific element in name change handler, use findindex to get element to alter
+*/
+
 class App extends Component {
-  
+
   state = {
-    persons : [
-      {name: 'Stephanie', age: 20},
-      {name: 'Ammar', age: 23},
-      {name: 'Jennifer', age: 22}
-    ]
+    persons: [
+      {id: "p-001", name: 'Stephanie', age: 20 },
+      {id: "p-002", name: 'Ammar', age: 23 },
+      {id: "p-003", name: 'Jennifer', age: 22 }
+    ],
+    personToggle: false
   }
-  
-  switchNameHandler = (newName)=>{
+
+  switchNameHandler = (newName) => {
 
     //DON'T DO THIS => this.state.persons[0].name = 'Akbar'; 
     this.setState({
-      persons : [
-        {name: 'Stephanie', age: 23},
-        {name: newName, age: 43},
-        {name: 'Jennifer', age: 21}
+      persons: [
+        { name: 'Stephanie', age: 23 },
+        { name: newName, age: 43 },
+        { name: 'Jennifer', age: 21 }
       ]
     });
   }
 
-  nameChangeHandler = (event)=>{
-    this.setState({
-      persons : [
-        {name: 'Stephanie', age: 23},
-        {name: 'Jennifer', age: 21},
-        {name: event.target.value, age: 43}
-      ]
+  nameChangeHandler = (event, id) => {
+
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
     });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({persons: persons});
   }
 
-  render(){
+  tooglePersonHandler = () => {
+    const doesShow = this.state.personToggle;
+    this.setState({personToggle: !doesShow});
+  }
+
+  deleteNameHandler = (index) => {
+    // const persons = this.state.persons;
+    const persons = [...this.state.persons];
+    persons.splice(index, 1);
+    this.setState({persons: persons});
+  }
+
+  render() {
 
     const style = {
       backgroundColor: 'white',
@@ -113,31 +170,50 @@ class App extends Component {
       cursor: 'pointer'
     };
 
-    return(
+    let person = null;
+    if(this.state.personToggle){
+      person = (
+        <div>
+
+        {this.state.persons.map((person, index) => {
+          return <Person
+           name = {person.name}
+           age = {person.age}
+           key = {person.id}
+           click = {this.deleteNameHandler.bind(this, index)}
+           changed = {(event)=>this.nameChangeHandler(event, person.id)}
+           />
+        })}
+
+          {/* <Person
+            name={this.state.persons[0].name}
+            age={this.state.persons[0].age}
+          />
+
+          <Person
+            name={this.state.persons[1].name}
+            age={this.state.persons[1].age}
+            click={this.switchNameHandler.bind(this, 'Waqar')}
+          >My Hobbies: BasketBall
+        </Person>
+
+          <Person
+            name={this.state.persons[2].name}
+            age={this.state.persons[2].age}
+            changed={this.nameChangeHandler}
+          /> */}
+        </div>
+      );
+    }
+
+    return (
       <div className="App">
         <h1>
           Hi there, this is React App
         </h1>
-        <button style={style} onClick = {() => this.switchNameHandler('Wasim')}>Switch Names</button>
-        
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-         />
-        
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'Waqar')}
-        >My Hobbies: BasketBall
-        </Person>
-        
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}
-          changed={this.nameChangeHandler}
-        />
-
+        <button style={style} onClick={() => this.switchNameHandler('Wasim')}>Switch Names</button>
+        <button style={style} onClick={this.tooglePersonHandler}>Toggle Persons</button>
+        {person}
       </div>
     );
 
