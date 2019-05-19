@@ -1,5 +1,6 @@
 import React from 'react';
 import './Person.css';
+import Radium from 'radium';
 
 /*1.2
 we already have seen a way of creating component now lets have a look at another method of 
@@ -31,9 +32,23 @@ refernce to the method as property to component, name is upto u.
 now lets say we want to take input instead of hardcoding, so we use input text as name, use onChange on method which is define in app.js where
 we still want to change state, now for styling go to 2.0
 */
+
+/*2.6
+we can also use media queries through radium, on using, it we'll get error of that we should wrap it, for 
+this name import styleroot and wrap our whole application with that only wrap in root component 
+i.e.App.js
+nowgo to 2.7 where we'll enable css modules 
+*/
 const person = (props)=>{
+
+    const styles = {
+        '@media (min-width: 500px)': {
+            width: '450px'
+        }
+    };
+
     return (
-        <div className="Person">
+        <div className="Person" style={styles}>
             <p onClick={props.click}>hi my name is {props.name} and my age is {props.age}</p>
             <p>{props.children}</p>
             <input type="text" value={props.name} onChange={props.changed}/>
@@ -42,4 +57,4 @@ const person = (props)=>{
     
 };
 
-export default person
+export default Radium(person)

@@ -1,33 +1,26 @@
+/*2.4
+to change in-line style dynamically and assign className dynamically see
+button style in App.js
+the problem we're currenlty facing is we can't apply hover effect in inline style and if we do it in css 
+file it will take place globally, let's first have a look at solution for applying hover on inline style,
+we'll use a 3rd package library for this task as it's not possible in normal inline, for usage of
+radium go to 2.5
+*/
+
+
+/*2.7
+css modules let u use same css class name in different files without worrying about name clashes
+they'll be used only where they r imported i.e local scope
+*/
 .App {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.red{
+  color: red;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.bold{
+  font-weight: bold;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

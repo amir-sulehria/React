@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium';
 
 
 /*1.2
@@ -108,13 +109,21 @@ now give person property of id(unique) that'll be used as key
 since now we've id we can change name to only specific element in name change handler, use findindex to get element to alter
 */
 
+/*2.5
+to use radium first import it, after importing go down and wrap export app with radium, as higher order 
+component, simply a component wrapping ur compnent, injecting some extra functionality, lets now start 
+using styling button with hover, for this simply write ':hover' which will take js object, u can also 
+change it dynamically, see below, problem i encouter, it was giving error related to key so i
+comment out switch name handler btn as inside its method we're not using key.
+*/
+
 class App extends Component {
 
   state = {
     persons: [
-      {id: "p-001", name: 'Stephanie', age: 20 },
-      {id: "p-002", name: 'Ammar', age: 23 },
-      {id: "p-003", name: 'Jennifer', age: 22 }
+      { id: "p-001", name: 'Stephanie', age: 20 },
+      { id: "p-002", name: 'Ammar', age: 23 },
+      { id: "p-003", name: 'Jennifer', age: 22 }
     ],
     personToggle: false
   }
@@ -145,45 +154,55 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({persons: persons});
+    this.setState({ persons: persons });
   }
 
   tooglePersonHandler = () => {
     const doesShow = this.state.personToggle;
-    this.setState({personToggle: !doesShow});
+    this.setState({ personToggle: !doesShow });
   }
 
   deleteNameHandler = (index) => {
     // const persons = this.state.persons;
     const persons = [...this.state.persons];
     persons.splice(index, 1);
-    this.setState({persons: persons});
+    this.setState({ persons: persons });
   }
 
   render() {
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let person = null;
-    if(this.state.personToggle){
+    if (this.state.personToggle) {
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      };
       person = (
         <div>
 
-        {this.state.persons.map((person, index) => {
-          return <Person
-           name = {person.name}
-           age = {person.age}
-           key = {person.id}
-           click = {this.deleteNameHandler.bind(this, index)}
-           changed = {(event)=>this.nameChangeHandler(event, person.id)}
-           />
-        })}
+          {this.state.persons.map((person, index) => {
+            return <Person
+              name={person.name}
+              age={person.age}
+              key={person.id}
+              click={this.deleteNameHandler.bind(this, index)}
+              changed={(event) => this.nameChangeHandler(event, person.id)}
+            />
+          })}
 
           {/* <Person
             name={this.state.persons[0].name}
@@ -206,15 +225,28 @@ class App extends Component {
       );
     }
 
+    // let classes = ['red', 'bold'].join(' ');
+    let classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push('red');
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold');
+    }
+
     return (
-      <div className="App">
-        <h1>
-          Hi there, this is React App
+
+      <StyleRoot>
+        <div className="App">
+          <h1>
+            Hi there, this is React App
         </h1>
-        <button style={style} onClick={() => this.switchNameHandler('Wasim')}>Switch Names</button>
-        <button style={style} onClick={this.tooglePersonHandler}>Toggle Persons</button>
-        {person}
-      </div>
+          <p className={classes.join(' ')}>This is really working</p>
+          {/* <button style={style} onClick={() => this.switchNameHandler('Wasim')}>Switch Names</button> */}
+          <button style={style} onClick={this.tooglePersonHandler}>Toggle Persons</button>
+          {person}
+        </div>
+      </StyleRoot>
     );
 
     // return React.createElement('div', null, React.createElement('h1', {className: 'App'}, 'From inside React.createElement'));
@@ -222,4 +254,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Radium(App);
