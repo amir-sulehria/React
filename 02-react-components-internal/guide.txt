@@ -1,0 +1,32 @@
+now lets split the application that we copied into more componenets. Question is what should go into its
+own componenet and do u group together in a higher componenet e.g. root component. If we analyze we'll
+notice that person component is pretty focused, it display cards of one person and handles a click on
+that card, leave person component as it is. however app component can be split up, there is a lot in 
+render method like lists and in return statement we have btn handler, generally container componenet 
+involve with state management should'nt be involved with ui rendering too much i.e. there render method
+should be clean and contanin min jsx.
+we'll make a persons component for list handling, also we can add cockpit component to include everything 
+between divs in return statement
+
+
+react provide many component lifecyle methods available only in stateful component, however not all these
+methods are executed on creation, only below one execute on component creation
+constructor(), componentWillMount(), componentDidMount(), render()
+
+lets have a look at creation component lifecyle process, 
+first of all constructor gets executed, 
+if u want to implement constructor u also have to call super(props)
+
+componentWillMount() will execute on 2nd no. , this method is defined by react and it's available because
+we extended Component. It's not used oftenly. if u use it u'll use it to update ur state, do some
+optimization. u should'nt reach out to web.
+
+render() method execute on 3rd no. , now executing render doesn't mean it accesses real dom, it gives 
+react idea of what it should render and how it should look like if it reaches to real dom.
+child components are rendered.
+
+componentDidMount() is executed at end. u can reac web but u shuoldn't update state.
+
+we already have one statefull component but to see how child components gets re render 
+we need to convert stateless components to statefull, process is simple
+though one important this is to add this in front of props
